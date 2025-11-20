@@ -1,0 +1,36 @@
+{
+  "name": "ecommerce-microservices",
+  "version": "1.0.0",
+  "description": "Plateforme e-commerce en microservices avec API Gateway, GraphQL et Kafka",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "gateway"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --workspaces",
+    "dev:gateway": "npm run dev --workspace=gateway",
+    "dev:clients": "npm run dev --workspace=clients-service",
+    "dev:products": "npm run dev --workspace=products-service",
+    "dev:orders": "npm run dev --workspace=orders-service",
+    "dev:payments": "npm run dev --workspace=payments-service",
+    "dev:invoices": "npm run dev --workspace=invoices-service",
+    "dev:notifications": "npm run dev --workspace=notifications-service",
+    "dev:all": "powershell -ExecutionPolicy Bypass -File .\\start-all.ps1",
+    "build:all": "npm run build --workspaces",
+    "test": "npm test --workspaces",
+    "docker:up": "podman-compose up -d",
+    "docker:down": "podman-compose down",
+    "docker:logs": "podman-compose logs -f"
+  },
+  "keywords": [
+    "ecommerce",
+    "microservices",
+    "nodejs",
+    "graphql",
+    "kafka",
+    "typeorm"
+  ],
+  "author": "",
+  "license": "MIT"
+}
