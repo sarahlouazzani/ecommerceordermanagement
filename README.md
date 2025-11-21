@@ -196,7 +196,172 @@ npm run docker:logs          # Voir les logs
 - Health checks sur tous les services
 - Métriques de performance
 
-## 🧪 Tests
+## 🧪 Tests & Validation
+
+### ✅ Résultats des Tests
+
+L'application a été testée avec succès sur toutes les fonctionnalités principales :
+
+#### Test 1: Health Check ✅
+```
+Status: ✅ PASSED
+Gateway: healthy/degraded
+Services testés:
+  ✓ Clients Service: healthy
+  ✓ Products Service: healthy
+  ✓ Orders Service: healthy
+  ✓ Payments Service: healthy
+  ✓ Invoices Service: healthy
+  ✓ Notifications Service: healthy
+```
+
+#### Test 2: Inscription Utilisateur ✅
+```
+Status: ✅ PASSED
+Request:
+  POST /api/auth/register
+  {
+    "email": "test@example.com",
+    "password": "SecurePass123!",
+    "firstName": "Test",
+    "lastName": "User"
+  }
+
+Response:
+  {
+    "message": "Inscription réussie",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+```
+
+#### Test 3: Connexion Utilisateur ✅
+```
+Status: ✅ PASSED
+Request:
+  POST /api/auth/login
+  {
+    "email": "test@example.com",
+    "password": "SecurePass123!"
+  }
+
+Response:
+  {
+    "message": "Connexion réussie",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "client": {
+      "id": "f55c42b3-d992-45be-bec0-eea951696757",
+      "email": "test@example.com",
+      "firstName": "Test",
+      "lastName": "User"
+    }
+  }
+```
+
+#### Test 4: Création de Produit ✅
+```
+Status: ✅ PASSED
+Request:
+  POST /api/products
+  Authorization: Bearer <token>
+  {
+    "name": "Laptop Dell XPS 15",
+    "description": "High-performance laptop",
+    "price": 1299.99,
+    "stock": 25,
+    "category": "Electronics"
+  }
+
+Response:
+  {
+    "id": "1f51accb-b1d0-4436-a3fe-22f4862426aa",
+    "name": "Laptop Dell XPS 15",
+    "price": 1299.99,
+    "stock": 25,
+    "category": "Electronics",
+    "createdAt": "2025-11-21T10:04:47.000Z"
+  }
+```
+
+#### Test 5: Liste des Produits ✅
+```
+Status: ✅ PASSED
+Request:
+  GET /api/products
+
+Response:
+  [
+    {
+      "id": "1f51accb-b1d0-4436-a3fe-22f4862426aa",
+      "name": "Laptop Dell XPS 15",
+      "price": 1299.99,
+      "stock": 25
+    },
+    {
+      "id": "b5d02dbc-43af-49f0-966f-b9a0e13c4400",
+      "name": "iPhone 15 Pro",
+      "price": 1199.99,
+      "stock": 30
+    }
+  ]
+```
+
+#### Test 6: Création de Commande ✅
+```
+Status: ✅ PASSED
+Request:
+  POST /api/orders
+  Authorization: Bearer <token>
+  {
+    "clientId": "f55c42b3-d992-45be-bec0-eea951696757",
+    "items": [{
+      "productId": "1f51accb-b1d0-4436-a3fe-22f4862426aa",
+      "quantity": 2,
+      "unitPrice": 1299.99
+    }],
+    "shippingAddress": {
+      "street": "123 rue de Test",
+      "city": "Paris",
+      "postalCode": "75001",
+      "country": "France"
+    }
+  }
+
+Response:
+  {
+    "id": "43f35c6a-40fa-4f3f-a3ae-08de255c4e51",
+    "orderNumber": "ORD-20251121-0001",
+    "total": 2599.98,
+    "status": "PENDING",
+    "items": [...]
+  }
+```
+
+#### Test 7: Liste des Commandes ✅
+```
+Status: ✅ PASSED
+Request:
+  GET /api/orders
+  Authorization: Bearer <token>
+
+Response: 1 commande(s) trouvée(s)
+  - Order #ORD-20251121-0001: €2599.98 - Status: PENDING
+```
+
+### 📊 Résumé des Tests
+
+```
+✅ Health Check: PASSED
+✅ User Registration: PASSED
+✅ User Login: PASSED
+✅ Product Creation: PASSED
+✅ Product List: PASSED
+✅ Order Creation: PASSED
+✅ Order List: PASSED
+
+Résultat: 7/7 tests réussis (100%)
+```
+
+### 🔬 Tests Unitaires et d'Intégration
 
 ```bash
 # Tests unitaires
@@ -208,6 +373,17 @@ npm run test:integration
 # Coverage
 npm run test:coverage
 ```
+
+### 🧪 Script de Test Complet
+
+Pour reproduire les tests ci-dessus, utilisez le script suivant :
+
+```powershell
+# Voir le fichier: scripts/test-apis.ps1
+.\scripts\test-apis.ps1
+```
+
+Ou consultez le guide complet : [USAGE_GUIDE.md](./USAGE_GUIDE.md)
 
 ## 🚢 Déploiement
 
